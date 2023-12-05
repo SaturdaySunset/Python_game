@@ -5,6 +5,9 @@ from button import ImageButton
 
 pygame.init()
 
+icon = pygame.image.load("photos/icon.png")
+pygame.display.set_icon(icon)
+
 pygame.mixer.music.load("audio/background_music.mp3")
 pygame.mixer.music.play(-1)
 
@@ -278,7 +281,7 @@ def change_screen_res(width, height, fullscreen=0):
     global WIDTH, HEIGHT, screen, main_background
     WIDTH, HEIGHT = width, height
     screen = pygame.display.set_mode((WIDTH, HEIGHT), fullscreen)
-    main_background = pygame.image.load(f'background_menu{WIDTH}.jpg')
+    main_background = pygame.image.load(f'photos/background_menu{WIDTH}.jpg')
 
 
 def start_game():
