@@ -5,7 +5,7 @@ from button import ImageButton
 
 pygame.init()
 
-pygame.mixer.music.load("background_music.mp3")
+pygame.mixer.music.load("audio/background_music.mp3")
 pygame.mixer.music.play(-1)
 
 WIDTH, HEIGHT = 960, 600
@@ -13,10 +13,10 @@ MAX_FPS = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Python_game")
-main_background = pygame.image.load("background_menu960.jpg")
+main_background = pygame.image.load("photos/background_menu960.jpg")
 clock = pygame.time.Clock()
 
-cursor = pygame.image.load("cursor_2.png")
+cursor = pygame.image.load("photos/cursor_2.png")
 pygame.mouse.set_visible(False)
 
 
@@ -26,27 +26,27 @@ def main_menu():
                                252,
                                74,
                                "START",
-                               "Button.png",
-                               "Button_light.png",
-                               "Sound.mp3")
+                               "photos/Button.png",
+                               "photos/Button_light.png",
+                               "audio/Sound.mp3")
 
     settings_button = ImageButton(WIDTH / 2 - (252 / 2),
                                   240,
                                   252,
                                   74,
                                   "SETTINGS",
-                                  "Button.png",
-                                  "Button_light.png",
-                                  "Sound.mp3")
+                                  "photos/Button.png",
+                                  "photos/Button_light.png",
+                                  "audio/Sound.mp3")
 
     exit_button = ImageButton(WIDTH / 2 - (252 / 2),
                               350,
                               252,
                               74,
                               "EXIT",
-                              "Button.png",
-                              "Button_light.png",
-                              "Sound.mp3")
+                              "photos/Button.png",
+                              "photos/Button_light.png",
+                              "audio/Sound.mp3")
     running = True
     while running:
         screen.fill((0, 0, 0))
@@ -95,27 +95,27 @@ def settings_menu():
                                252,
                                74,
                                "AUDIO",
-                               "Button.png",
-                               "Button_light.png",
-                               "Sound.mp3")
+                               "photos/Button.png",
+                               "photos/Button_light.png",
+                               "audio/Sound.mp3")
 
     video_button = ImageButton(WIDTH / 2 - (252 / 2),
                                240,
                                252,
                                74,
                                "VIDEO",
-                               "Button.png",
-                               "Button_light.png",
-                               "Sound.mp3")
+                               "photos/Button.png",
+                               "photos/Button_light.png",
+                               "audio/Sound.mp3")
 
     back_button = ImageButton(WIDTH / 2 - (252 / 2),
                               350,
                               252,
                               74,
                               "BACK",
-                              "Button.png",
-                              "Button_light.png",
-                              "Sound.mp3")
+                              "photos/Button.png",
+                              "photos/Button_light.png",
+                              "audio/Sound.mp3")
     running = True
     while running:
         screen.fill((0, 0, 0))
@@ -167,36 +167,36 @@ def video_menu():
                                252,
                                74,
                                "960 X 600",
-                               "Button.png",
-                               "Button_light.png",
-                               "Sound.mp3")
+                               "photos/Button.png",
+                               "photos/Button_light.png",
+                               "audio/Sound.mp3")
 
     res_2_button = ImageButton(WIDTH / 2 - (252 / 2),
                                240,
                                252,
                                74,
                                "1024 X 768",
-                               "Button.png",
-                               "Button_light.png",
-                               "Sound.mp3")
+                               "photos/Button.png",
+                               "photos/Button_light.png",
+                               "audio/Sound.mp3")
 
     res_3_button = ImageButton(WIDTH / 2 - (252 / 2),
                                350,
                                252,
                                74,
                                "1920 X 1080",
-                               "Button.png",
-                               "Button_light.png",
-                               "Sound.mp3")
+                               "photos/Button.png",
+                               "photos/Button_light.png",
+                               "audio/Sound.mp3")
 
     back_button = ImageButton(WIDTH / 2 - (252 / 2),
                               460,
                               252,
                               74,
                               "BACK",
-                              "Button.png",
-                              "Button_light.png",
-                              "Sound.mp3")
+                              "photos/Button.png",
+                              "photos/Button_light.png",
+                              "audio/Sound.mp3")
 
     running = True
     while running:
