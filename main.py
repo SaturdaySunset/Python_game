@@ -138,8 +138,10 @@ def settings_menu():
             if event.type == pygame.USEREVENT and event.button == video_button:
                 fade()
                 video_menu()
-                for btn in [audio_button, video_button, back_button]:
-                    btn.alignment(WIDTH / 2 - (252 / 2))
+
+            if event.type == pygame.USEREVENT and event.button == audio_button:
+                fade()
+                audio_menu()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -149,6 +151,9 @@ def settings_menu():
             if event.type == pygame.USEREVENT and event.button == back_button:
                 fade()
                 running = False
+
+            for btn in [audio_button, video_button, back_button]:
+                btn.alignment(WIDTH / 2 - (252 / 2))
 
             for btn in [audio_button, video_button, back_button]:
                 btn.handle_event(event)
@@ -222,9 +227,6 @@ def video_menu():
                     fade()
                     running = False
 
-            for btn in [res_1_button, res_2_button, res_3_button, back_button]:
-                btn.alignment(WIDTH / 2 - (252 / 2))
-
             if event.type == pygame.USEREVENT and event.button == res_1_button:
                 change_screen_res(960, 600)
                 fade()
@@ -240,6 +242,9 @@ def video_menu():
             if event.type == pygame.USEREVENT and event.button == back_button:
                 fade()
                 running = False
+
+            for btn in [res_1_button, res_2_button, res_3_button, back_button]:
+                btn.alignment(WIDTH / 2 - (252 / 2))
 
             for btn in [res_1_button, res_2_button, res_3_button, back_button]:
                 btn.handle_event(event)
@@ -282,6 +287,81 @@ def change_screen_res(width, height, fullscreen=0):
     WIDTH, HEIGHT = width, height
     screen = pygame.display.set_mode((WIDTH, HEIGHT), fullscreen)
     main_background = pygame.image.load(f'photos/background_menu{WIDTH}.jpg')
+
+
+def audio_menu():
+    music_on_button = ImageButton(WIDTH / 2 - (252 / 2),
+                                  150,
+                                  252,
+                                  74,
+                                  "MUSIC ON",
+                                  "photos/Button.png",
+                                  "photos/Button_light.png",
+                                  "audio/Sound.mp3")
+
+    music_off_button = ImageButton(WIDTH / 2 - (252 / 2),
+                                   260,
+                                   252,
+                                   74,
+                                   "MUSIC OFF",
+                                   "photos/Button.png",
+                                   "photos/Button_light.png",
+                                   "audio/Sound.mp3")
+
+    back_button = ImageButton(WIDTH / 2 - (252 / 2),
+                              370,
+                              252,
+                              74,
+                              "BACK",
+                              "photos/Button.png",
+                              "photos/Button_light.png",
+                              "audio/Sound.mp3")
+
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+        screen.blit(main_background, (0, 0))
+
+        font = pygame.font.Font(None, 72)
+        text_surface = font.render("AUDIO SETTINGS", True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(WIDTH/2, 70))
+        screen.blit(text_surface, text_rect)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    fade()
+                    running = False
+
+            if event.type == pygame.USEREVENT and event.button == music_on_button:
+                pygame.mixer.music.unpause()
+
+            if event.type == pygame.USEREVENT and event.button == music_off_button:
+                pygame.mixer.music.pause()
+
+            if event.type == pygame.USEREVENT and event.button == back_button:
+                fade()
+                running = False
+
+            for btn in [music_on_button, music_off_button, back_button]:
+                btn.alignment(WIDTH / 2 - (252 / 2))
+
+            for btn in [music_on_button, music_off_button, back_button]:
+                btn.handle_event(event)
+
+        for btn in [music_on_button, music_off_button, back_button]:
+            btn.check_hover(pygame.mouse.get_pos())
+            btn.draw(screen)
+
+        x, y = pygame.mouse.get_pos()
+        screen.blit(cursor, (x - 30, y - 15))
+
+        pygame.display.flip()
 
 
 def start_game():
