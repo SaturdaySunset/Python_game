@@ -5,12 +5,15 @@ from button import ImageButton
 
 pygame.init()
 
+pygame.mixer.music.load("background_music.mp3")
+pygame.mixer.music.play(-1)
+
 WIDTH, HEIGHT = 960, 600
 MAX_FPS = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Здесь могла быть ваша реклама!")
-main_background = pygame.image.load("background_menu.jpg")
+pygame.display.set_caption("Python_game")
+main_background = pygame.image.load("background_menu960.jpg")
 clock = pygame.time.Clock()
 
 cursor = pygame.image.load("cursor_2.png")
@@ -47,11 +50,11 @@ def main_menu():
     running = True
     while running:
         screen.fill((0, 0, 0))
-        screen.blit(main_background, (-100, -350))
+        screen.blit(main_background, (0, 0))
 
         font = pygame.font.Font(None, 72)
         text_surface = font.render("MENU", True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(480, 70))
+        text_rect = text_surface.get_rect(center=(WIDTH/2, 70))
         screen.blit(text_surface, text_rect)
 
         for event in pygame.event.get():
@@ -69,6 +72,9 @@ def main_menu():
                 running = False
                 pygame.quit()
                 sys.exit()
+
+            for btn in [start_button, settings_button, exit_button]:
+                btn.alignment(WIDTH / 2 - (252 / 2))
 
             for btn in [start_button, settings_button, exit_button]:
                 btn.handle_event(event)
@@ -113,11 +119,11 @@ def settings_menu():
     running = True
     while running:
         screen.fill((0, 0, 0))
-        screen.blit(main_background, (-100, -350))
+        screen.blit(main_background, (0, 0))
 
         font = pygame.font.Font(None, 72)
         text_surface = font.render("SETTINGS", True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(480, 70))
+        text_rect = text_surface.get_rect(center=(WIDTH/2, 70))
         screen.blit(text_surface, text_rect)
 
         for event in pygame.event.get():
@@ -125,6 +131,12 @@ def settings_menu():
                 running = False
                 pygame.quit()
                 sys.exit()
+
+            if event.type == pygame.USEREVENT and event.button == video_button:
+                fade()
+                video_menu()
+                for btn in [audio_button, video_button, back_button]:
+                    btn.alignment(WIDTH / 2 - (252 / 2))
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -148,12 +160,95 @@ def settings_menu():
         pygame.display.flip()
 
 
-def start_game():
-    pass
+def video_menu():
 
+    res_1_button = ImageButton(WIDTH / 2 - (252 / 2),
+                               130,
+                               252,
+                               74,
+                               "960 X 600",
+                               "Button.png",
+                               "Button_light.png",
+                               "Sound.mp3")
 
-def exit_game():
-    pass
+    res_2_button = ImageButton(WIDTH / 2 - (252 / 2),
+                               240,
+                               252,
+                               74,
+                               "1024 X 768",
+                               "Button.png",
+                               "Button_light.png",
+                               "Sound.mp3")
+
+    res_3_button = ImageButton(WIDTH / 2 - (252 / 2),
+                               350,
+                               252,
+                               74,
+                               "1920 X 1080",
+                               "Button.png",
+                               "Button_light.png",
+                               "Sound.mp3")
+
+    back_button = ImageButton(WIDTH / 2 - (252 / 2),
+                              460,
+                              252,
+                              74,
+                              "BACK",
+                              "Button.png",
+                              "Button_light.png",
+                              "Sound.mp3")
+
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+        screen.blit(main_background, (0, 0))
+
+        font = pygame.font.Font(None, 72)
+        text_surface = font.render("VIDEO SETTINGS", True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(WIDTH/2, 70))
+        screen.blit(text_surface, text_rect)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    fade()
+                    running = False
+
+            for btn in [res_1_button, res_2_button, res_3_button, back_button]:
+                btn.alignment(WIDTH / 2 - (252 / 2))
+
+            if event.type == pygame.USEREVENT and event.button == res_1_button:
+                change_screen_res(960, 600)
+                fade()
+
+            if event.type == pygame.USEREVENT and event.button == res_2_button:
+                change_screen_res(1024, 768)
+                fade()
+
+            if event.type == pygame.USEREVENT and event.button == res_3_button:
+                change_screen_res(1920, 1080, pygame.FULLSCREEN)
+                fade()
+
+            if event.type == pygame.USEREVENT and event.button == back_button:
+                fade()
+                running = False
+
+            for btn in [res_1_button, res_2_button, res_3_button, back_button]:
+                btn.handle_event(event)
+
+        for btn in [res_1_button, res_2_button, res_3_button, back_button]:
+            btn.check_hover(pygame.mouse.get_pos())
+            btn.draw(screen)
+
+        x, y = pygame.mouse.get_pos()
+        screen.blit(cursor, (x - 30, y - 15))
+
+        pygame.display.flip()
 
 
 def fade():
@@ -177,6 +272,17 @@ def fade():
 
         pygame.display.flip()
         clock.tick(MAX_FPS)
+
+
+def change_screen_res(width, height, fullscreen=0):
+    global WIDTH, HEIGHT, screen, main_background
+    WIDTH, HEIGHT = width, height
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), fullscreen)
+    main_background = pygame.image.load(f'background_menu{WIDTH}.jpg')
+
+
+def start_game():
+    pass
 
 
 if __name__ == "__main__":
