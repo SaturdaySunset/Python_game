@@ -1,6 +1,7 @@
 import pygame
 import sys
 from button import ImageButton
+from player import Player
 
 
 pygame.init()
@@ -17,9 +18,11 @@ MAX_FPS = 60
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Python_game")
 main_background = pygame.image.load("photos/background_menu960.jpg")
+background_game = pygame.image.load("photos/game_background960.jpg")
 clock = pygame.time.Clock()
 
 cursor = pygame.image.load("photos/cursor_2.png")
+crosshair = pygame.image.load("photos/Crosshair_yellow.png")
 pygame.mouse.set_visible(False)
 
 
@@ -65,6 +68,10 @@ def main_menu():
                 running = False
                 pygame.quit()
                 sys.exit()
+
+            if event.type == pygame.USEREVENT and event.button == start_button:
+                fade()
+                start_game()
 
             if event.type == pygame.USEREVENT and event.button == settings_button:
                 fade()
@@ -283,10 +290,11 @@ def fade():
 
 
 def change_screen_res(width, height, fullscreen=0):
-    global WIDTH, HEIGHT, screen, main_background
+    global WIDTH, HEIGHT, screen, main_background, background_game
     WIDTH, HEIGHT = width, height
     screen = pygame.display.set_mode((WIDTH, HEIGHT), fullscreen)
     main_background = pygame.image.load(f'photos/background_menu{WIDTH}.jpg')
+    background_game = pygame.image.load(f"photos/game_background{WIDTH}.jpg")
 
 
 def audio_menu():
@@ -365,7 +373,38 @@ def audio_menu():
 
 
 def start_game():
-    pass
+
+    player = Player(WIDTH * 0.10416,
+                    HEIGHT * 0.63,
+                    100,
+                    100,
+                    "photos/Hero_0.png",
+                    "audio/Arrow_sound.mp3")
+
+    running = True
+    while running:
+        screen.fill((0, 0, 0))
+        screen.blit(background_game, (0, 0))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    fade()
+                    running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                player.attack(event, screen)
+
+        player.draw(screen)
+
+        x, y = pygame.mouse.get_pos()
+        screen.blit(crosshair, (x - 29, y - 30))
+        pygame.display.update()
 
 
 if __name__ == "__main__":
