@@ -1,4 +1,5 @@
 import pygame
+import math
 
 
 class Player:
@@ -34,9 +35,35 @@ class Player:
         screen.blit(current_image, self.rect.topleft)
 
     def attack(self, event, screen):
-        for i in [1, 2, 3, 0]:
-            pose = f"photos/Hero_{i}.png"
-            screen.blit(pygame.image.load(pose), self.rect.topleft)
-            if pose == "photos/Hero_3.png":
-                if self.sound:
-                    self.sound.play()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.sound:
+                self.sound.play()
+
+            attack_images = [
+                pygame.image.load("assets/photos/Hero_2.png"),
+                pygame.image.load("assets/photos/Hero_3.png")
+            ]
+
+            start_time = pygame.time.get_ticks()
+            current_time = 0
+            current_image_index = 0
+
+            while current_time < 400:
+                current_time = pygame.time.get_ticks() - start_time
+
+                if current_time < 200:
+                    current_image_index = 0
+                elif current_time < 400:
+                    current_image_index = 1
+
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                screen.blit(pygame.image.load("assets/photos/Crosshair_yellow.png"), (mouse_x - 29, mouse_y - 30))
+
+                screen.blit(attack_images[current_image_index], self.rect.topleft)
+                pygame.display.flip()
+
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            screen.blit(pygame.image.load("assets/photos/Crosshair_yellow.png"), (mouse_x - 29, mouse_y - 30))
+
+            screen.blit(self.image, self.rect.topleft)
+            pygame.display.flip()
