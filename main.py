@@ -21,11 +21,10 @@ FPS = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Kingdom_Defence")
-main_background = pygame.image.load("assets/photos/background_menu960.jpg")
+main_background = pygame.image.load("assets/photos/background_menu960.jpg").convert_alpha()
 clock = pygame.time.Clock()
 
 cursor = pygame.image.load("assets/photos/cursor_2.png")
-crosshair = pygame.image.load("assets/photos/Crosshair_yellow.png")
 pygame.mouse.set_visible(False)
 
 level = 1
@@ -123,7 +122,6 @@ def main_menu():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 pygame.quit()
                 sys.exit()
 
@@ -137,7 +135,6 @@ def main_menu():
 
             if event.type == pygame.USEREVENT and event.button == exit_button:
                 fade()
-                running = False
                 pygame.quit()
                 sys.exit()
 
@@ -186,7 +183,6 @@ def settings_menu():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 pygame.quit()
                 sys.exit()
 
@@ -281,7 +277,6 @@ def audio_menu():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 pygame.quit()
                 sys.exit()
 
@@ -324,7 +319,7 @@ def draw_text(text, fnt, text_col, x, y):
 def show_info():
     draw_text('Money: ' + str(castle.money), font, GREY, 10, 10)
     draw_text('Score: ' + str(castle.score), font, GREY, 180, 10)
-    draw_text('High Score: ' + str(high_score), font, GREY, 180, 30)
+    draw_text('High Score: ' + str(highscore), font, GREY, 180, 30)
     draw_text('Level: ' + str(level), font, GREY, WIDTH // 2, 10)
     draw_text('Health: ' + str(castle.health) + " / " + str(castle.max_health), font, GREY, WIDTH - 230,
               HEIGHT - 50)
@@ -502,7 +497,6 @@ def start_game():
     next_level = False
     enemy_timer = 1000
     last_enemy = pygame.time.get_ticks()
-    enemies_alive = 0
     max_towers = 4
     tower_cost = 5000
     tower_positions = [
@@ -555,8 +549,8 @@ def start_game():
             if level_difficulty < target_difficulty:
                 if pygame.time.get_ticks() - last_enemy > enemy_timer:
                     e = random.randint(0, len(enemy_types) - 1)
-                    enemy = Enemy(enemy_health[e], enemy_animations[e], -100, HEIGHT - 100, 1)
-                    enemy_group.add(enemy)
+                    enem = Enemy(enemy_health[e], enemy_animations[e], -100, HEIGHT - 100, 1)
+                    enemy_group.add(enem)
 
                     last_enemy = pygame.time.get_ticks()
 
@@ -613,7 +607,6 @@ def start_game():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
